@@ -1,7 +1,7 @@
 {
-  "name": "5.build-server",
+  "name": "6.expressjs",
   "version": "1.0.0",
-  "description": "",
+  "description": "Introduction to Express JS",
   "main": "server.js",
   "scripts": {
     "start": "node server",
@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "date-fns": "^4.1.0",
+    "express": "^5.2.1",
     "uuid": "^13.0.0"
   },
   "devDependencies": {
