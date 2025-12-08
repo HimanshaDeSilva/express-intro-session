@@ -13,12 +13,9 @@ app.use(logger);
 
 // Cross Origin Resource Sharing
 const whitelist = [
-  "https://www.yoursite.com",
-  "http://127.0.0.1:5500",
-  "http://localhost:3500",
-];
-const corsOption = {
-  origin: (origin, callback) => {
+  "https://www.yoursite.com", "http://127.0.0.1:5500", "http://localhost:3500"];
+
+const corsOption = {  origin: (origin, callback) => {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
@@ -29,9 +26,7 @@ const corsOption = {
 };
 app.use(cors(corsOption));
 
-// built-in middleware to handle urlencoded data
-// in other words, form data:
-// 'content-type: application/x-www-form-urlencoded'
+// built-in middleware to handle urlencoded data in other words, form data: 'content-type: application/x-www-form-urlencoded'
 app.use(express.urlencoded({ extended: false }));
 
 // built-in middleware for json
@@ -39,52 +34,14 @@ app.use(express.json());
 
 // serve static files
 app.use(express.static(path.join(__dirname, "/public")));
+app.use('/subdir',express.static(path.join(__dirname, "/public")));
 
-app.get(/^\/(index(.html)?|)$/, (req, res) => {
-  // res.sendFile('./views/index.html', {root: __dirname})
-  res.sendFile(path.join(__dirname, "views", "index.html"));
-});
+// routes
+app.use('/' , require('./routes/root'))
+app.use('/subdir', require('./routes/subdir'));
+app.use('/employees', require('./routes/api/employees.js'));
 
-app.get("/new-page.html", (req, res) => {
-  res.sendFile(path.join(__dirname, "views", "new-page.html"));
-});
-app.get(["/old-page", "/old-page.html"], (req, res) => {
-  res.redirect(301, "new-page.html");
-});
 
-// Route handlers
-app.get(
-  "/hello",
-  (req, res, next) => {
-    console.log("Attempted to load hello.html");
-    next();
-  },
-  (req, res) => {
-    res.send("Hello World!");
-  }
-);
-
-// chaining route handlers
-const one = (req, res, next) => {
-  console.log("one");
-  next();
-};
-
-const two = (req, res, next) => {
-  console.log("two");
-  next();
-};
-
-const three = (req, res) => {
-  console.log("three");
-  res.send("Finished!");
-};
-
-app.get(["/chain", "/chain.html"], [one, two, three]);
-
-// app.get(/.*/, (req, res) => {
-//   res.status(404).sendFile(path.join(__dirname, "views", "404.html"));
-// });
 app.all(/.*/, (req, res) => {
   res.status(404);
   if(req.accepts('html')){
