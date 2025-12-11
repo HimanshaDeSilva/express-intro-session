@@ -25,7 +25,9 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "/public")));
 
 // routes
-app.use('/' , require('./routes/root'))
+app.use('/' , require('./routes/root'));
+app.use('/register' , require('./routes/register.js'));
+app.use('/auth' , require('./routes/auth.js'));
 app.use('/employees', require('./routes/api/employees.js'));
 
 
