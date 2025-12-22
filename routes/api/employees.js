@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const employeesController = require("../../controllers/employeesController.js");
 // const verifyJWT = require('../../middleware/verifyJWT.js');
-const ROLES_LIST = ('../../config/roles_list.js');
+const ROLES_LIST = require('../../config/roles_list.js');
 const verifyRoles = require('../../middleware/verifyRoles.js');
 
 router
